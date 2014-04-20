@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="youtuber.css">
+  </head>
+  <body>
+    <div id="player-box">
+      <div id="player"></div>
+    </div>
+    <select id="channels-select" size="10" multiple></select>
+    <div id="input-button-box">
+      <input id="channels-input" type="text"/>
+      <button id="delete-channels-button" onclick="onDeleteChannles()">
+	<span class="button-text">Delete</span>
+      </button>
+      <button id="add-channels-button" onclick="onAddChannels()">
+	<span class="button-text">Add</span>
+      </button>
+    </div>
+    <div class="spinner-frame">
+      <button id="updateButton" onclick="update()">
+	<span class="button-text">Update</span>
+      </button><button id="reloadButton" onclick="reload()">
+	<span class="button-text">Reload</span>
+      </button>
+      <div id="progress-text"></div>
+    </div>
+    <div id="info-box" class="spinner-frame"></div>
+    <ul id="video-list"><!-- videos will go here --></ul>
+    <div id="bottom-element" class="spinner-frame"></div>
+
+    <script type="text/javascript">var channels = ""</script>
+    <script src="channels.js"></script>
+
+    <script src="youtuber.js"></script>
+  </body>
+</html>

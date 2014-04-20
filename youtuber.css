@@ -1,0 +1,369 @@
+/* -*- indent-tabs-mode: nil; -*- */
+
+/* Copyright (C) 2013 by Volker Sobek
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
+
+/* Always force a scrollbar */
+html {
+    overflow-y: scroll;
+}
+
+body {
+    margin: 0px;
+    font-family: arial, sans;
+    font-size: 13px;
+    line-height: 1em;
+    color: #aaaaaa;
+}
+
+.video-list {
+    font-size: 1em;
+    margin: auto 0px;
+}
+
+button {
+    padding: 7px 15px;
+    font-size: 13px;
+    font-weight: bold;
+    color: rgb(51, 51, 51);
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    background-color: rgb(234, 234, 234);
+    background-image: linear-gradient(rgb(250, 250, 250), rgb(234, 234, 234));
+    background-repeat: repeat-x;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(221, 221, 221) rgb(221, 221, 221) rgb(197, 197, 197);
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.075);
+    vertical-align: middle;
+    cursor: pointer;
+    -moz-user-select: none;
+    border-radius: 3px 3px 3px 3px;
+    font-size: 13px;
+    box-shadow: 0px 1px 0px rgb(255, 255, 255);
+    border-radius: 3px 3px 3px 3px;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+button:hover {
+    color: rgb(255, 255, 255);
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+    background-repeat: repeat-x;
+    background-color: rgb(48, 114, 179);
+    background-image: linear-gradient(rgb(89, 155, 205), rgb(48, 114, 179));
+    border-color: rgb(42, 101, 160);
+    text-decoration: none;
+}
+
+button:active {
+    background-color: #ddddff;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1) inset;
+    color: white;
+    text-decoration: none;
+    border-color: rgb(81, 167, 232);
+}
+
+button:focus {
+/* outline: medium none; */
+}
+
+.button-text {
+    outline: none;
+}
+
+#video-list {
+    margin: 0px auto;
+    padding: 0px;
+}
+
+#player-box {
+    position: absolute;
+    width: 640px;
+    height: 390px;
+    border-style: solid;
+    border-width: 0px 6px;
+    color: white;
+    overflow: hidden;
+    display: none;
+}
+
+.item {
+    display: block;
+    overflow: hidden;
+
+    width: 640px;
+    height: 0px;
+    opacity: 0;
+
+    background: white;
+    /* box-shadow: 0px 1px 2px rgb(204, 204, 204); */
+    /* background-image: linear-gradient(to bottom, */
+    /*                                        rgb(255, 255, 255) 0px, */
+    /*                                        rgb(240, 240, 240) 80%); */
+    margin: 0px auto;
+
+    transition-property: height, margin, opacity, border-color;
+    transition-duration: 0s, 0s, 1s, 3s;
+    transition-delay: 0s, 0s, 1s, 0s;
+
+    border-style: solid;
+    border-width: 0px 6px;
+    border-color: white;
+}
+
+.item.expanded {
+    height: 180px;
+    margin: 6px auto;
+    opacity: 1;
+}
+
+.item.new {
+    border-color: white white white greenyellow;
+}
+
+.item.playing {
+    margin-top: 402px;                  /* 390px (player height) + padding */
+    height: 180px;
+    opacity: 1;
+}
+
+.item:hover {
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5), 0px -1px 0px rgb(255, 255, 255) inset;
+    /* background-image: linear-gradient(to bottom, */
+    /*                                        rgb(255, 255, 255) 0px, */
+    /*                                        rgb(240, 240, 240) 100%); */
+}
+
+/* .item #player-box { */
+/*     display: block; */
+/*     /\* position: absolute; *\/ */
+/*     /\* margin: auto auto; *\/ */
+/*     /\* margin: 0px auto; *\/ */
+/* /\*     display: block; *\/ */
+/* /\*     opacity: 255; *\/ */
+/* /\*     height: 0px; *\/ */
+/* /\*     background-color: gray; *\/ */
+/* /\*     padding: 6px; *\/ */
+/* /\*     transition-property: height; *\/ */
+/* /\*     transition-duration: 1s; *\/ */
+/* } */
+
+iframe {
+    display: block;
+    margin: 0 auto;
+}
+
+#status {
+    font-size: 1.2em;
+    color: #888888;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.5);
+    vertical-align: middle;
+}
+
+.spinner-frame {
+    padding: 6px;
+    width: 640px;
+    margin: 10px auto;
+    background: white;
+
+    border-width: 0px 3px;
+    border-style: solid;
+    border-color: white;
+    /* border-radius: 3px 3px 3px 3px; */
+    /* box-shadow: 0px 1px 2px rgb(204, 204, 204); */
+
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#topElement {
+    vertical-align: bottom;
+    display: block;
+    /* display: none; */
+}
+
+#bottom-element {
+    background-image: none;
+    display: block;
+    height: 100px;
+    margin-bottom: 0;
+}
+
+#progress-text {
+    display: inline;
+    font-size: 13px;
+    font-weight: bold;
+    color: rgb(51, 51, 51);
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.9);
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+#progress-group {
+    width: 550px;
+    margin: 2px auto;
+    position: relative;
+    display: block;
+    vertical-align: middle;
+}
+
+.info-box {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+.title {
+    font-weight: bold;
+    margin: 6px 0px;
+    font-size: 1.2em;
+    max-height: 1.2em;
+    line-height: 1.2em;
+    overflow: hidden;
+}
+
+h4 {
+    /* display: inline; */
+    margin: 0px 0px 6px 0px;
+}
+
+.author {
+    /* display: inline; */
+    font-weight: bold;
+}
+
+.time {
+    padding: 2px 0px;
+}
+
+.description {
+    padding: 2px 0px;
+    line-height: 1.2em;
+    max-height: 3.6em;
+    overflow: hidden;
+}
+
+.comments-count {
+    font-weight: bold;
+}
+
+.thumb {
+    display: block;
+    position: relative;
+    float: left;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: #888888;
+}
+
+a:hover {
+    color: #555555;
+}
+
+.duration {
+    position: absolute;
+    padding: 3px 5px;
+    border-radius: 3px;
+    right: 10px;
+    bottom: 10px;
+    color: white;
+    background-color: black;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+.views {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.statistics-bar {
+    position: absolute;
+    right: 0px;
+    bottom: 4px;
+    width: 200px;
+    text-align: right;
+    padding: 0px;
+}
+
+.statistics-bar-background {
+    width: 100%;
+    height: 4px;
+    margin-bottom: 3px;
+}
+
+.statistics-bar-likes {
+    width: 0%;
+    float: left;
+    background-color: #0096ff;
+    height: 100%;
+}
+
+.statistics-bar-dislikes {
+    width: 0%;
+    float: right;
+    background-color: red;
+    height: 100%;
+}
+
+.statistics-bar-info-string {
+}
+
+#no-votes-info {
+    vertical-align: bottom;
+    font-weight: bold;
+    color: red;
+}
+
+#channels-select {
+    display: block;
+    width: 640px;
+    height: 100px;
+    margin: 5px auto;
+}
+
+#channels-input {
+    width: 400px;
+    margin: 5px auto;
+}
+
+#input-button-box {
+    display: block;
+    height: 50px;
+    width: 640px;
+    margin: 5px auto;
+}
+
+#add-channels-button {
+    float: right;
+}
+
+#delete-channels-button {
+    float: right;
+}

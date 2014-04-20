@@ -1,0 +1,19 @@
+// -*- indent-tabs-mode: nil; -*-
+
+/////////////////////////////////////////////////////////////////////////
+// COPY THIS FILE TO ./channels.js AND ADD YOUR CUSTOM CHANNELS TO THE //
+// channels ARRAY BELOW!                                               //
+/////////////////////////////////////////////////////////////////////////
+
+// This string contains the channels (user names) you want to
+// follow. For example, to follow the channels
+// www.youtube.com/user/google and www.youtube.com/user/youtube, your
+// channels string would look like this: channels = "google youtube";
+
+// For the new YouTube channels, which use
+// www.youtube.com/channel/UC<random characters here>
+// you have to add the string UC<random characters here> to the list.
+
+// If this is empty the channels 'google' and 'youtube' will be used
+// as default
+channels = "google youtube";
