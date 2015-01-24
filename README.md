@@ -1,35 +1,51 @@
 youtuber
 ========
 
-About
------
+The place to follow all your favorite YouTube channels *without any
+kind of account or registration*. And of course it's free. You can
+start using it right now at http://imftc.github.io/youtuber/!
 
-youtuber is a simple web page for following and watching the latest
-video uploads on your favorite YouTube channels, *without the need of
-a Google account*. It fetches the latest video uploads for the given
-channels (using Google's Data API (gdata)),presents them
+
+How it works
+------------
+
+youtuber fetches the latest video uploads for the given
+channels using Google's Data API (gdata), presents them
 chronologically and allows playing them in place.
+
+The page doesn't collect any kind of data related to YouTube, it
+doesn't even know what channels you add or videos you watch; all
+communication with youtube.com is happening between your browser and
+youtube.com directly. Because you don't need any kind of account,
+saving your channel list must be done in the local storage of your
+browser. Therefore you have to make sure that the local storage for
+http://imftc.github.io/youtuber/ is not cleared when quitting your
+browser, otherwise the next time you visit the page your channel list
+will only show the two default channels 'google' and 'youtube' again.
+
 
 Usage
 -----
 
-1. Open the youtuber.html file with your browser
+1. Visit http://imftc.github.io/youtuber/
 2. Add channels
-3. Click the Update button to check for new videos
+3. Watch videos!
 
-Important
----------
 
-To permanently store the channels you follow, add their names in the
-channels.js file. Otherwise added channels will be forgotten once you
-delete cookies, since local storage is deleted together with cookies
-in most browsers. Local storage support is possible but currently
-disabled (commented out) because it causes loading of the page to fail
-when you reach around 100 channels firefox allows.
+Local Usage
+-----------
 
-Even more important
--------------------
+Instead of visiting http://imftc.github.io/youtuber/ directly you can
+clone this repo and open index.html with your browser. You can then
+also create a file named channels.js in that directory to permanently
+store the list of your channels. The file channels.js.sample contains
+more information on that.
 
-I know the code is messy and buggy and I have no ambitions to clean
-this up atm! ;)
 
+Help welcome!
+-------------
+
+The page works currently good enough for me, so I don't plan to work
+on it in the near future. But of course it could be a lot better here
+and there and offer more features and look nicer. So, if you have
+ideas/fixes, open a pull request here so that everyone can profit!
