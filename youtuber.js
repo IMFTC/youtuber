@@ -23,6 +23,7 @@ var START_LIMIT = 15;
 var PLAYER_HEIGTH = 390;
 var MAX_RESULTS = 5; // how many entries to fetch per channel?
 
+var channels = undefined;
 var currentlyPlayingItem = undefined;
 var channelsSelect;
 var videos = [];
@@ -54,24 +55,35 @@ if (!('contains' in String.prototype))
 function Channel(id) {
     this.id = id;
     this.name = undefined;
-    this.videos = undefined;
 }
 
+var defaultChannelsString = "google youtube";
+var localChannels = JSON.parse(localStorage.getItem('channels'));
+
+window.console.log("default channels: " + defaultChannelsString);
+window.console.log("loading " + (localChannels ? localChannels.length : 0) + " channels from local storage");
 // yts.html loads channels from the channels variable in ./channels.js
-if (channels == "") {
-    window.console.log("Warning: Falling back to default channels!");
-    channels = "google youtube"
+// before sourcing this youtuber.js file. So if that file existed and
+// contained a non-empty channels variable, we load it
+if (localChannels) {
+    window.console.log("using channels from local storage");
+    channels = localChannels;
+} else {
+    window.console.log("using default channels");
+
+    channels = [];
+    // This can be old style www.youtube.com/user/name channel names or new style
+    // www.youtube.com/channel/UC{user id} here.
+    channelIDs = defaultChannelsString.trim().split(/\s+|\s*,\s*/);
+    channelIDs.forEach(function(id) {
+        var c = new Channel(id);
+        channels.push(c);
+    });
 }
 
-window.console.log("channels: " + channels);
-
-// This can be old style www.youtube.com/user/name channel names or new style
-// www.youtube.com/channel/UC{user id} here.
-channelIDs = channels.trim().split(/\s+|\s*,\s*/);
-channels = [];
-channelIDs.forEach(function(id) {
-    var c = new Channel(id);
-    channels.push(c);
+window.console.log("list of channels:");
+channels.forEach(function(c) {
+    window.console.log("  name:" + c.name + " id:" + c.id);
 });
 
 function sortAndUniqueArray(array) {
@@ -284,7 +296,6 @@ function reload() {
     window.console.log("reload ...");
     clearVideosOnPage();
     videos = [];
-    //localStorage.clear();
     update();
 }
 
@@ -575,7 +586,6 @@ function requestVideoEntries(channels, onCompleteCb) {
                 //window.console.log("chan.name: " + chan.name);
                 //window.console.log(response.feed);
                 var entries = response.feed.entry || [];
-                chan.videos = entries;
                 entries.forEach(function (e) {
                     videoEntries.push(e);
                 })
@@ -707,6 +717,7 @@ function onAddChannels() {
     }
 
     channels = channels.concat(newChannelsToAdd);
+
     channels.sort(function (a, b) {
         return a.name < b.name;
     });
@@ -715,7 +726,7 @@ function onAddChannels() {
     requestVideoEntries(newChannelsToAdd, function (resultList) {
         var newList = videos.concat(resultList);
         replaceVideosOnPage(newList);
-        //localStorage.setItem('channels', JSON.stringify(channels));
+        localStorage.setItem('channels', JSON.stringify(channels));
     });
 }
 
@@ -744,7 +755,7 @@ function onDeleteChannles() {
 
         });
         updateSelectBox();
-        //localStorage.setItem('channels', JSON.stringify(channels));
+        localStorage.setItem('channels', JSON.stringify(channels));
         //localStorage.setItem('videos', JSON.stringify(videos));
         replaceVideosOnPage(videos);
         //window.console.log("channels atfer deleting: " + channels)
@@ -788,16 +799,6 @@ function init() {
 
     // window.scrollY = 0;
 
-    
-    // var localChannels = JSON.parse(localStorage.getItem('channels'))
-
-    // if (localChannels.length > 0) {
-    //     channels = localChannels;
-    //     window.console.log("Using channels from local storage");
-    // } else {
-    //     channels = sortAndUniqueArray(channels);
-    //     localStorage.setItem('channels', JSON.stringify(channels));
-    // }
     updateSelectBox();
 
     // var localVideos = JSON.parse(localStorage.getItem('videos'));
