@@ -17,7 +17,6 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-
 /* Always force a scrollbar */
 html {
     overflow-y: scroll;
@@ -366,4 +365,37 @@ a:hover {
 
 #delete-channels-button {
     float: right;
+}
+
+#header-box {
+    background-color: lightblue;
+    padding: 6px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    font-weight: bold;
+    color: white;
+}
+
+#title {
+    font-size: 32px;
+    float: left;
+    padding: 12px
+}
+
+#github-link {
+    border-style: solid;
+    border-width: 2px;
+    padding: 4px 16px;
+    float: right;
+    margin: 6px;
+    box-shadow: none;
+    color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
+    transition-property: border-color;
+    transition-duration: 0.2s;
+}
+
+#github-link:hover {
+    color:  rgba(255, 255, 255, 1);
+    border-color: rgba(255, 255, 255, 1);
 }
