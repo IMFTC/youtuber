@@ -797,6 +797,14 @@ function init() {
     infoBox.innerHTML = infoBoxText;
     infoBox.style.display = "none";
 
+    // Set a random color for the header
+    headerColors = ["lightblue", "lightsteelblue", "lightcoral",
+                    "lightgray", "lightpink", "lightsalmon", "lightseagreen",
+                    "lightskyblue", "lightslategray", "lightsteelblue"];
+    headerBox = document.getElementById("header-box");
+    headerBox.style.backgroundColor =
+        headerColors[Math.round(Math.random() * (headerColors.length - 1))];
+
     // window.scrollY = 0;
 
     updateSelectBox();

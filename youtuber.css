@@ -368,12 +368,15 @@ a:hover {
 }
 
 #header-box {
-    background-color: lightblue;
+    background-color: white;
     padding: 6px;
     margin-bottom: 12px;
     overflow: hidden;
     font-weight: bold;
     color: white;
+    transition-property: background-color;
+    transition-delay: 1s;
+    transition-duration: 0.4s;
 }
 
 #title {
