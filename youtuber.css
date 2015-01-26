@@ -392,13 +392,13 @@ a:hover {
     float: right;
     margin: 6px;
     box-shadow: none;
-    color: rgba(255, 255, 255, 0.5);
-    border-color: rgba(255, 255, 255, 0.5);
-    transition-property: color, border-color;
-    transition-duration: 0.2s;
+    color: white;
+    border-color: white;
+    opacity: 0.5;
+    transition-property: opacity;
+    transition-duration: 0.5s;
 }
 
 #github-link:hover {
-    color:  rgba(255, 255, 255, 1);
-    border-color: rgba(255, 255, 255, 1);
+    opacity: 1;
 }
