@@ -23,9 +23,9 @@ var START_LIMIT = 15;
 var PLAYER_HEIGTH = 390;
 var MAX_RESULTS = 5; // how many entries to fetch per channel?
 
-var channels = undefined;
 var currentlyPlayingItem = undefined;
 var channelsSelect;
+var channels = [];
 var videos = [];
 var lastEntry = undefined;
 var indexNextVideo = 0;
@@ -43,6 +43,8 @@ You can follow channels by creating the file channels.js containing content of t
     + '<p>channels="channel_1 channel_2 ..."</p>'
     + '<p>to follow www.youtube.com/user/channel_1, www.youtube.com/user/channel_2, ...'
     + '<p>and then reload this page.</p>'
+var defaultChannelsString = "google youtube";
+var localChannels;
 
 // String.contains not available in webkit
 if (!('contains' in String.prototype))
@@ -56,35 +58,6 @@ function Channel(id) {
     this.id = id;
     this.name = undefined;
 }
-
-var defaultChannelsString = "google youtube";
-var localChannels = JSON.parse(localStorage.getItem('channels'));
-
-window.console.log("default channels: " + defaultChannelsString);
-window.console.log("loading " + (localChannels ? localChannels.length : 0) + " channels from local storage");
-// yts.html loads channels from the channels variable in ./channels.js
-// before sourcing this youtuber.js file. So if that file existed and
-// contained a non-empty channels variable, we load it
-if (localChannels) {
-    window.console.log("using channels from local storage");
-    channels = localChannels;
-} else {
-    window.console.log("using default channels");
-
-    channels = [];
-    // This can be old style www.youtube.com/user/name channel names or new style
-    // www.youtube.com/channel/UC{user id} here.
-    channelIDs = defaultChannelsString.trim().split(/\s+|\s*,\s*/);
-    channelIDs.forEach(function(id) {
-        var c = new Channel(id);
-        channels.push(c);
-    });
-}
-
-window.console.log("list of channels:");
-channels.forEach(function(c) {
-    window.console.log("  name:" + c.name + " id:" + c.id);
-});
 
 function sortAndUniqueArray(array) {
     var result = [];
@@ -785,6 +758,45 @@ function updateSelectBox() {
 }
 
 function init() {
+    localChannels = JSON.parse(localStorage.getItem('channels'));
+
+    window.console.log("default channels: " + defaultChannelsString);
+    window.console.log("loading " + (localChannels ? localChannels.length : 0)
+                       + " channels from local storage");
+
+    channelIDs = null;
+
+    if (channelsString != "") {
+        // yts.html loads channelsString from ./channels.js before sourcing
+        // this youtuber.js file. So if that file existed and contained a
+        // non-empty channels variable, we load it
+        window.console.log("loading channelsString from file channels.js: " + channelsString);
+        channelIDs = channelsString.trim().split(/\s+|\s*,\s*/);
+    } else {
+        if (localChannels) {
+            window.console.log("using channels from local storage");
+            channels = localChannels;
+        } else {
+            window.console.log("No channels found in local storage or channels.js; using default channels");
+
+            // This can be old style www.youtube.com/user/name channel names or new style
+            // www.youtube.com/channel/UC{user id} here.
+            channelIDs = defaultChannelsString.trim().split(/\s+|\s*,\s*/);
+        }
+    }
+
+    if (channelIDs) {
+        channelIDs.forEach(function(id) {
+            var c = new Channel(id);
+            channels.push(c);
+        });
+    }
+
+
+    window.console.log("list of channels:");
+    channels.forEach(function(c) {
+        window.console.log("  name:" + c.name + " id:" + c.id);
+    });
     window.console.log ("init ...");
     progressText = document.getElementById("progress-text");
     bottomElement = document.getElementById("bottom-element");
