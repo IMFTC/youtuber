@@ -1,9 +1,9 @@
 youtuber
 ========
 
-The place to follow all your favorite YouTube channels *without any
-kind of account or registration*. And of course it's free. You can
-start using it right now at http://imftc.github.io/youtuber/!
+A convenient place to follow all your favorite YouTube channels
+without a Google account. This repo holds the source code for the
+webpage hosted at http://imftc.github.io/youtuber/
 
 
 How it works
